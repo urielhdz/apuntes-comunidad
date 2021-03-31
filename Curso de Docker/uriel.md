@@ -67,36 +67,36 @@ Manejo básico de contenedores con el cliente de Docker (desde terminal)
 - docker container run es igual a ejecutar docker container create y docker container start
 - docker container create, crea el contenedor pero no lo ejecuta
 - docker container ls incluye una columna STATUS que, cuando indica Created, quiere decir que el contenedor fue creado, pero no ejecutado
-- docker container start <docker-id> ejecuta el contenedor para el ID especificado
+- `docker container start <docker-id>` ejecuta el contenedor para el ID especificado
 - STATUS en docker container ls indica cuándo finalizó la ejecución de un contenedor
 
 ## Modo interactivo de Docker
 El modo interactivo nos permite abrir una terminal en el contenedor para ejecutar comandos, puede abrirse en la terminal que estamos usando, o en segundo plano.
 
 - En el Docker Hub, tags nos permiten diferenciar entre distintas versiones de la imagen, latest es la última soportada, se usa por defecto latest.
-- docker image pull <nombre-imagen>:<tag> para descargar un tag específico
-- docker container ls incluye una columna TAG donde se indica el tag usado para descargar la imagen
-- docker container run <nombre-imagen>:<tag> nos permite ejecutar una imagen en un tag específico
+- `docker image pull <nombre-imagen>:<tag>` para descargar un tag específico
+- `docker container ls` incluye una columna TAG donde se indica el tag usado para descargar la imagen
+- `docker container run <nombre-imagen>:<tag>` nos permite ejecutar una imagen en un tag específico
 - Cuando un contenedor ejecuta un servicio, la terminal queda en ejecución del contenedor
 - docker container ls debería enlistar un contenedor con procesos en ejecución
 - docker container ls incluye una columna STATUS que si está up, significa que el contenedor se está ejecutando
 - Ctrl + C para finalizar un contenedor con un proceso ejecutándose
 - Modo interactivo: Una forma de ejecutar una terminal dentro del contenedor
 - La bandera -i mantiene la entrada estándar abierta, -t genera una nueva terminal. La combinación de -i, -t genera un proceso dentro del contenedor y agrega una terminal
-- docker container run -it <nombre-imagen> para habilitar la terminal en el contenedor (Modo interactivo)
+- `docker container run -it <nombre-imagen>` para habilitar la terminal en el contenedor (Modo interactivo)
 - exit para salir de la terminal del contenedor
-- docker container run -d Ejecuta el contenedor en segundo plano e imprime el ID. Ejemplo: docker container run -d <nombre-imagen>
-- docker container run -itd <nombre-imagen> habilita el modo interactivo en segundo plano
-- docker container ls
+- docker container run -d Ejecuta el contenedor en segundo plano e imprime el ID. Ejemplo: `docker container run -d <nombre-imagen>`
+- `docker container run -itd <nombre-imagen>` habilita el modo interactivo en segundo plano
+- `docker container ls`
 
 ## Ejecutar comandos dentro de un contenedor
 
-- docker container attach nos "agrega" a la entrada y salida estándar del contenedor, en términos prácticos esto significa que nos ingresa a la terminal de un contenedor ejecutándose en segundo plano. Ej: docker container attach <id-contenedor>
+- docker container attach nos "agrega" a la entrada y salida estándar del contenedor, en términos prácticos esto significa que nos ingresa a la terminal de un contenedor ejecutándose en segundo plano. Ej: `docker container attach <id-contenedor>`
 - exit dentro de attach también cierra el proceso y apaga el contenedor cuando el proceso que lo mantiene disponible es la terminal
-- docker container exec nos permite ejecutar comandos directamente en la terminal. Ejemplo: docker container exec <id-contenedor> <comando> <flags>: `docker container exec f778423aac8f ls -lh`
+- docker container exec nos permite ejecutar comandos directamente en la terminal. Ejemplo: `docker container exec <id-contenedor> <comando> <flags>`: `docker container exec f778423aac8f ls -lh`
 - La flag -i en exec nos permite abrir una entrada estándar al contenedor, sin que al finalizarlo se finalice la ejecución del proceso de entrada estándar del contenedor mismo `docker container exec -it f778423aac8f bash` (presuntamente es como abrir una nueva terminal en el contenedor de Ubuntu)
 - exit sobre la terminal abierta con exec no cierra el proceso estándar del contenedor y por tanto lo mantiene abierto.
-- docker container top <id-contenedor> enlista los procesos ejecutándose dentro de un contenedor
+- `docker container top <id-contenedor>` enlista los procesos ejecutándose dentro de un contenedor
 
 
 ## Puertos
@@ -108,7 +108,7 @@ Los puertos nos permiten exponer servicios de un contenedor hacia el host.
 - docker container stop $(docker container ls -q) detiene todos los contenedores activos
 - docker container prune - Elimina todos los contenedores detenidos
 - La bandera -p del comando docker container -run, publica los puertos del contenedor al host.
-- La sintaxis de -p es <puerto-host-para-mapeo>:<puerto-del-contenedor>, ejemplo: `docker container run -d -p 3030:80 nginx`, en este caso el puerto 80 del contenedor se accede con el 3030 en el host.
+- La sintaxis de -p es `<puerto-host-para-mapeo>:<puerto-del-contenedor>`, ejemplo: `docker container run -d -p 3030:80 nginx`, en este caso el puerto 80 del contenedor se accede con el 3030 en el host.
 - `docker container port <id-contenedor>` Enlista los puertos mapeados del contenedor al host
 - El flag -P de docker container run delega a docker el mapeo de puertos para que asigne uno aleatorio en el host para los puertos del contenedor `docker container run -d -P nginx`, puedes saber a qué puerto mapeo con docker container port
 - `docker container ls` también contiene una columna PORT para los puertos enlistados
@@ -118,7 +118,7 @@ Los puertos nos permiten exponer servicios de un contenedor hacia el host.
 
 Los logs nos permiten visualizar la salida estándar o el error estándar del contenedor.
 
-- docker container logs <id-contenedor> imprime los logs del contenedor
+- `docker container logs <id-contenedor>` imprime los logs del contenedor
 - Bastante útil cuando no sabemos por qué un contenedor se apagó, ya que imprime las entradas al error estándar del contenedor
 
 
@@ -144,7 +144,7 @@ Compartir archivos entre el host y el contenedor o entre contenedores. Almacenar
 - `docker volume ls` enlista los volúmenes en nuestra computadora
 - `docker volume inspect <nombre-volumen>` entrega info del volumen como fecha de creación, driver y dónde ubicarlo en el host. El path puede no encontrarse en Mac o Windows porque se ejecutan en máquinas virtuales
 - Para montar un volumen en un contenedor usamos la opcion -v al ejecutar el contenedor: `docker container run -dit -v local:/app ubuntu`
-- La sintaxis de la opción -v es <nombre-volumen>:<path-contenedor>, el path del contenedor define en qué ubicación estará el volumen.
+- La sintaxis de la opción -v es `<nombre-volumen>:<path-contenedor>`, el path del contenedor define en qué ubicación estará el volumen.
 - Los archivos de un volumen persisten incluso aunque el contenedor haya sido eliminado.
 
 
