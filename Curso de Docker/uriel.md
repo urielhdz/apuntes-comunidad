@@ -93,7 +93,7 @@ El modo interactivo nos permite abrir una terminal en el contenedor para ejecuta
 
 - docker container attach nos "agrega" a la entrada y salida estándar del contenedor, en términos prácticos esto significa que nos ingresa a la terminal de un contenedor ejecutándose en segundo plano. Ej: docker container attach <id-contenedor>
 - exit dentro de attach también cierra el proceso y apaga el contenedor cuando el proceso que lo mantiene disponible es la terminal
-- docker container exec nos permite ejecutar comandos directamente en la terminal. Ejemplo: docker container exec <id-contenedor> <comando> <flags>: `docker container exec f778423aac8f ls -lh``
+- docker container exec nos permite ejecutar comandos directamente en la terminal. Ejemplo: docker container exec <id-contenedor> <comando> <flags>: `docker container exec f778423aac8f ls -lh`
 - La flag -i en exec nos permite abrir una entrada estándar al contenedor, sin que al finalizarlo se finalice la ejecución del proceso de entrada estándar del contenedor mismo `docker container exec -it f778423aac8f bash` (presuntamente es como abrir una nueva terminal en el contenedor de Ubuntu)
 - exit sobre la terminal abierta con exec no cierra el proceso estándar del contenedor y por tanto lo mantiene abierto.
 - docker container top <id-contenedor> enlista los procesos ejecutándose dentro de un contenedor
@@ -121,7 +121,8 @@ Los logs nos permiten visualizar la salida estándar o el error estándar del co
 - docker container logs <id-contenedor> imprime los logs del contenedor
 - Bastante útil cuando no sabemos por qué un contenedor se apagó, ya que imprime las entradas al error estándar del contenedor
 
-## Commits 
+
+## Commits 
 
 Un commit es una forma de tomar a un contenedor con todos sus recursos y transformarlo en una imagen.
 
